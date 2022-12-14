@@ -34,5 +34,40 @@ namespace Student_Entity.Controllers
             }
             return View(student);
         }
+
+        public IActionResult Update(int id)
+        {
+            if (id==0)
+            {
+                return RedirectToAction("Index");
+
+            }
+            Student student = _db.Students.Find(id);
+            return View(student);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Students.Update(student);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(student);
+        }
+
+        public IActionResult Delete(int id) 
+        {
+            if (id==0)
+            {
+                return RedirectToAction("Index");
+            }
+            Student student = _db.Students.Find(id);
+            _db.Students.Remove(student);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
